@@ -2,53 +2,60 @@
 {% block content %}
 
 <div class="container my-5">
-    <div class="jumbotron text-center">
-        <h1 class="display-4">Welcome to AgroBoost 🌾</h1>
+    <!-- Jumbotron Section -->
+    <div class="jumbotron text-center bg-success text-white py-5">
+        <h1 class="display-4">Welcome to AgroBoost</h1>
         <p class="lead">Empowering SHGs & FPGs in value-added agricultural products</p>
         {% if not user.is_authenticated %}
         <a class="btn btn-success btn-lg" href="{% url 'register' %}" role="button">Join Now</a>
-        <a class="btn btn-outline-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
+        <a class="btn btn-outline-light btn-lg ml-3" href="{% url 'login' %}" role="button">Login</a>
         {% endif %}
     </div>
 
-    <hr>
+    <hr class="my-4">
 
-    <section class="text-center my-4">
+    <!-- Why AgroBoost Section -->
+    <section class="text-center my-5">
         <h2>Why AgroBoost?</h2>
         <p class="text-muted">We help SHGs and FPGs showcase their food processing innovations, improve reach, and connect with consumers.</p>
     </section>
 
-    <section class="row">
-        <div class="col-md-4 text-center">
-            <i class="fas fa-upload fa-2x mb-2"></i>
+    <!-- Features Section -->
+    <section class="row text-center my-5">
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-upload fa-3x mb-3 text-success"></i>
             <h5>Upload Products</h5>
             <p>Showcase processed agricultural products with images and details.</p>
         </div>
-        <div class="col-md-4 text-center">
-            <i class="fas fa-book fa-2x mb-2"></i>
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-book fa-3x mb-3 text-success"></i>
             <h5>Knowledge Base</h5>
             <p>Resources and guides for SHGs/FPGs to improve their value addition.</p>
         </div>
-        <div class="col-md-4 text-center">
-            <i class="fas fa-filter fa-2x mb-2"></i>
+        <div class="col-md-4 mb-4">
+            <i class="fas fa-filter fa-3x mb-3 text-success"></i>
             <h5>Filter & Export</h5>
             <p>Search, filter by role/category, and export product listings as PDF.</p>
         </div>
     </section>
 
-    <hr>
+    <hr class="my-4">
 
-    <section class="my-4">
+    <!-- Latest Products Section -->
+    <section class="my-5">
         <h3 class="text-center">Latest Products</h3>
         <div class="row">
             {% for product in latest_products %}
-            <div class="col-md-4 mb-3">
-                <div class="card h-100">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
                     <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.description|truncatechars:100 }}</p>
-                        <p><strong>₹{{ product.price }}</strong></p>
+                        <p><strong>Γé╣{{ product.price }}</strong></p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-success btn-sm">View Details</a>
                     </div>
                 </div>
             </div>
@@ -58,4 +65,7 @@
         </div>
     </section>
 
+</div>
+
 {% endblock %}
+

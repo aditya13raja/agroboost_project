@@ -1,49 +1,69 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>All Products</h2>
-<form method="GET" class="row mb-4">
-    <div class="col-md-4">
-        <input type="text" name="q" value="{{ query }}" placeholder="Search products..." class="form-control" />
-    </div>
-    <div class="col-md-2">
-        <select name="role" class="form-select">
-            <option value="">All Roles</option>
-            <option value="SHG" {% if request.GET.role == 'SHG' %}selected{% endif %}>SHG</option>
-            <option value="FPG" {% if request.GET.role == 'FPG' %}selected{% endif %}>FPG</option>
-        </select>
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-primary" type="submit">Filter</button>
-    </div>
-</form>
-<div class="row">
-    {% for product in products %}
-    <div class="col-md-4">
-        <div class="card mb-3">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p><strong>Price:</strong> ₹{{ product.price }}</p>
-                <p><small>Uploaded by: {{ product.uploader.username }}</small></p>
-                {% if product.uploader == user %}
-                <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
-                <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
-                {% endif %}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">All Products</h2>
+
+    <form method="GET" class="row mb-4">
+        <div class="col-md-5 mb-2">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search products..." class="form-control" />
+        </div>
+        <div class="col-md-3 mb-2">
+            <select name="role" class="form-select">
+                <option value="">All Roles</option>
+                <option value="SHG" {% if request.GET.role == 'SHG' %}selected{% endif %}>SHG</option>
+                <option value="FPG" {% if request.GET.role == 'FPG' %}selected{% endif %}>FPG</option>
+            </select>
+        </div>
+        <div class="col-md-2 mb-2">
+            <button class="btn btn-success w-100" type="submit">Filter</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm h-100">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+                    <p><small>Uploaded by: {{ product.uploader.username }}</small></p>
+                    {% if product.uploader == user %}
+                    <div class="mt-auto">
+                        <a href="{% url 'edit_product' product.pk %}" class="btn btn-sm btn-outline-success">Edit</a>
+                        <a href="{% url 'delete_product' product.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>No products found matching your criteria.</p>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ products.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+            </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <a class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</a>
+            </li>
+            {% if products.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ products.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
-<nav>
-    <ul class="pagination justify-content-center">
-        {% if products.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a></li>
-        {% endif %}
-        <li class="page-item disabled"><a class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</a></li>
-        {% if products.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a></li>
-        {% endif %}
-    </ul>
-</nav>
+
 {% endblock %}
+

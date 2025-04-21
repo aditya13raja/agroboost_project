@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
+
 {% block content %}
 
 <div class="container my-5">
-  <h2 class="text-center">Add New Product</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="text-center text-success mb-4">Add New Product</h2>
 
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success btn-lg">Add Product</button>
-  </form>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label text-success">{{ field.label_tag }}</label>
+                    {{ field|bootstrap }}
+                    {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg px-4">Add Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

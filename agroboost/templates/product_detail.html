@@ -6,13 +6,19 @@
 
   <div class="row">
     <div class="col-md-6">
-      <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+      <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
     </div>
     <div class="col-md-6">
-      <p><strong>Description:</strong> {{ product.description }}</p>
-      <p><strong>Price:</strong> ₹{{ product.price }}</p>
-      <p><strong>Uploaded by:</strong> {{ product.uploader.username }}</p>
-      <p><strong>Added on:</strong> {{ product.added_on }}</p>
+      <div class="product-details">
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> Γé╣{{ product.price }}</p>
+        <p><strong>Uploaded by:</strong> {{ product.uploader.username }}</p>
+        <p><strong>Added on:</strong> {{ product.added_on|date:"F j, Y" }}</p>
+      </div>
+      <div class="text-center mt-4">
+        <a href="{% url 'edit_product' product.id %}" class="btn btn-warning btn-lg">Edit Product</a>
+        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger btn-lg">Delete Product</a>
+      </div>
     </div>
   </div>
 </div>

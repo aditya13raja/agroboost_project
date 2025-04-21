@@ -110,15 +110,3 @@ def delete_product(request, pk):
 
     return render(request, 'confirm_delete.html', {'product': product})
 
-
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your profile was updated successfully.")
-            return redirect('dashboard')
-    else:
-        form = UserChangeForm(instance=request.user)
-    return render(request, 'edit_profile.html', {'form': form})
