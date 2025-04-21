@@ -1,0 +1,53 @@
+# Virtual environment
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django specific files
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Media and static files
+/static/
+/media/
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore environment variables and secrets
+.env
+*.env
+
+# Ignore migrations cache (optional)
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.pyd
+
+# Ignore compiled dependencies
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Ignore coverage and test reports
+.coverage
+*.cover
+htmlcov/
+*.pytest_cache/
+
+# Ignore Docker files (if using Docker)
+docker-compose.override.yml
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
