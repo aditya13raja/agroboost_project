@@ -39,10 +39,24 @@ def add_product(request):
     return render(request, 'add_product.html', {'form': form})
 
 
+from django.core.paginator import Paginator
+
 def view_products(request):
     role = request.GET.get('role')
+    query = request.GET.get('q', '')
+    products = Product.objects.all()
+
     if role in ['SHG', 'FPG']:
-        products = Product.objects.filter(uploader__profile__role=role)
-    else:
-        products = Product.objects.all()
-    return render(request, 'view_products.html', {'products': products})
+        products = products.filter(uploader__profile__role=role)
+    if query:
+        products = products.filter(name__icontains=query)
+
+    paginator = Paginator(products, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'view_products.html', {
+        'products': page_obj,
+        'query': query
+    })
+
