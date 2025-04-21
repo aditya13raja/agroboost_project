@@ -21,7 +21,8 @@ def register(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             Profile.objects.create(user=user, role=form.cleaned_data['role'])
-            return redirect('login')
+            login(request, user)
+            return redirect('home')
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
