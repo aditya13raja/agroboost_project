@@ -3,8 +3,10 @@ from django.contrib.auth import login, authenticate
 from .forms import UserRegisterForm, ProductForm
 from .models import Profile, Product, Resource
 
+
 def home(request):
     return render(request, 'home.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -19,8 +21,10 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
+
 def dashboard(request):
     return render(request, 'dashboard.html')
+
 
 def add_product(request):
     if request.method == 'POST':
@@ -34,6 +38,11 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'add_product.html', {'form': form})
 
+
 def view_products(request):
-    products = Product.objects.all()
+    role = request.GET.get('role')
+    if role in ['SHG', 'FPG']:
+        products = Product.objects.filter(uploader__profile__role=role)
+    else:
+        products = Product.objects.all()
     return render(request, 'view_products.html', {'products': products})

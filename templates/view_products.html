@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>All Products</h2>
+<form method="GET" class="mb-3">
+  <label>Filter by Role:</label>
+  <select name="role" onchange="this.form.submit()" class="form-select w-auto d-inline mx-2">
+    <option value="">All</option>
+    <option value="SHG" {% if request.GET.role == 'SHG' %}selected{% endif %}>SHG</option>
+    <option value="FPG" {% if request.GET.role == 'FPG' %}selected{% endif %}>FPG</option>
+  </select>
+</form>
 <div class="row">
   {% for product in products %}
   <div class="col-md-4">
