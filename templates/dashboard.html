@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Hello, {{ user.username }}!</h2>
+<p>Welcome to your dashboard.</p>
+<ul>
+  <li><a href="{% url 'add_product' %}">Add Product</a></li>
+  <li><a href="{% url 'view_products' %}">View Products</a></li>
+</ul>
+{% endblock %}
