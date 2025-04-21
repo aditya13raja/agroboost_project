@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import UserRegisterForm, ProductForm
 from .models import Profile, Product, Resource
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -59,4 +60,24 @@ def view_products(request):
         'products': page_obj,
         'query': query
     })
+
+
+@login_required
+def edit_product(request, pk):
+    product = get_object_or_404(Product, pk=pk, uploader=request.user)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('view_products')
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'add_product.html', {'form': form})
+
+
+@login_required
+def delete_product(request, pk):
+    product = get_object_or_404(Product, pk=pk, uploader=request.user)
+    product.delete()
+    return redirect('view_products')
 

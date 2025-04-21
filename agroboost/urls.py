@@ -11,4 +11,7 @@ urlpatterns = [
 
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+
+    path('edit-product/<int:pk>/', views.edit_product, name='edit_product'),
+    path('delete-product/<int:pk>/', views.delete_product, name='delete_product'),
 ]
